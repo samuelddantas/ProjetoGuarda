@@ -1,0 +1,96 @@
+@charset "UTF-8";
+
+@import url('https://fonts.googleapis.com/css2?family=Nunito:ital,wght@0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Dosis:wght@200;300;400;500;600;700;800&display=swap');
+
+:root {
+    --cor0: #171a21;
+    --cor1: #1b2838;
+    --cor2: #c7d5e0;
+    --cor3: #1e7e34;
+    --cor4: #d39e00;
+    --cor5: #bd2130;
+    --cor6: #0062cc;
+
+    --font0: 'Dosis', sans-serif;
+    --font1: 'Nunito', sans-serif;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    text-decoration: none;
+    box-sizing: border-box;
+    font-family: var(--font1);
+}
+
+header {
+    display: flex;
+    align-items: center;
+    height: 8vh;
+    background-color: var(--cor0);
+}
+
+header h1{
+    font-size: 3em;
+    margin-left: 2em;
+}
+
+header h1 a {
+    color: var(--cor2);
+    font-family: var(--font0);
+}
+
+main {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 92vh;
+    background-color: var(--cor1);
+}
+
+form p {
+    display: flex;
+    flex-direction: row;
+    padding: 5px;
+}
+
+form label {
+    color: white;
+    font-size: 1.3em;
+    width: 100%
+}
+
+form input {
+    display: flex;
+    align-self: center;
+    border: 1px solid #ccc;
+    border-radius: 3px;
+    width: 100%;
+    height: 2rem;
+    background-color: #f2f2f2;
+    font-size: 1em;
+}
+
+form button {
+    width: 33%;
+    height: 2.3em;
+    border-radius: 12px;
+    border: 0;
+    margin-top: 1em;
+    color: white;
+    background-color: var(--cor6);
+    font-size: 1.2em;
+    font-weight: bold;
+    cursor: pointer;
+    transition: .3s all;
+}
+
+form button:hover {
+    background-color: #0f76e4;
+}
+
+form select {
+    width: 100%;
+    font-size: 1em;
+}

@@ -1,0 +1,36 @@
+{% load static %}
+<link rel="stylesheet" href= {% static 'form.css'%}>
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tela de alterações</title>
+</head>
+<body>
+    <header>
+        <nav>
+            <h1><a href="/">Projeto Guarda</a></h1>
+        </nav>
+    </header>
+
+    <main>
+        <!--formulario-->
+        <form method ="POST">
+            {% csrf_token %}
+            {{ form.as_p }}
+        
+            <button type ="submit">Salvar</button>
+        
+            {% if tipo_de_obra %}
+                <a href = "{% url 'url_delete' tipo_de_obra.id%}"> Remover </a>
+            {% endif %}
+        
+            {% if obra %}
+            <a href = "{% url 'url_delete3' obra.id%}"> Remover </a>
+            {% endif %}
+        </form>
+    </main>
+</body>
+</html>

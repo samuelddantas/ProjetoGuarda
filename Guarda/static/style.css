@@ -1,0 +1,222 @@
+@charset "UTF-8";
+
+@import url('https://fonts.googleapis.com/css2?family=Nunito:ital,wght@0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Dosis:wght@200;300;400;500;600;700;800&display=swap');
+
+:root {
+    --cor0: #171a21;
+    --cor1: #1b2838;
+    --cor2: #c7d5e0;
+    --cor3: #1e7e34;
+    --cor4: #d39e00;
+    --cor5: #bd2130;
+    --cor6: #0062cc;
+
+    --font0: 'Dosis', sans-serif;
+    --font1: 'Nunito', sans-serif;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    text-decoration: none;
+    box-sizing: border-box;
+    font-family: var(--font0);
+}
+
+header {
+    display: flex;
+    align-items: center;
+    height: 8vh;
+    background-color: var(--cor0);
+}
+
+header h1 {
+    font-size: 3em;
+    margin-left: 2em;
+}
+
+header h1 a {
+    color: var(--cor2);
+}
+
+main {
+    padding: 3em 0;
+    min-height: 100%;
+    overflow: hidden;
+    background-color: var(--cor1);
+}
+
+.container {
+    margin: auto;
+    max-width: 67vw;
+}
+
+.divisor h2 {
+    font-size: 2.5em;
+    color: var(--cor2);
+    font-family: var(--font1);
+}
+
+.divisor hr {
+    color: var(--cor2);
+}
+
+.btn {
+    height: 5em;
+}
+
+.create-btn {
+    float: right;
+}
+
+.create-btn button {
+    border: 0;
+    width: 240px;
+    height: 45px;
+    font-size: 1.1em;
+    margin-top: 1em;
+    cursor: pointer;
+    color: white;
+    font-family: var(--font1);
+    border-radius: 12px;
+    background-color: var(--cor3);
+    transition: .3s all;
+}
+
+.create-btn button:hover {
+    background-color: #29ac47;
+}
+
+.content {
+    margin: 0 auto;
+    margin-bottom: 3em;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 2.5em 0;
+    padding: 10px;
+}
+
+.photo {
+    width: 275px;
+    height: 380px;
+    object-fit: cover;
+}
+
+.grid-polaroid {
+    display: grid;
+    justify-self: center;
+    max-width: 100%;
+}
+
+.grid-polaroid h2 {
+    white-space: nowrap !important;
+    overflow: hidden;
+    max-width: 275px;
+    font-size: 1.3em;
+    margin-bottom: .3em;
+    text-align: center;
+    color: var(--cor2);
+    cursor: pointer;
+}
+
+.grid-polaroid a {
+    overflow: hidden;
+}
+
+.grid-polaroid img{
+    transition: all .175s;
+    max-width: 100%;
+}
+
+.grid-polaroid img.photo_tipo_de_obra{
+    opacity: .75;
+}
+
+.grid-polaroid h2.title_tipo_de_obra {
+  text-transform: uppercase;
+}
+
+.grid-polaroid img:hover {
+    transform: scale(1.05);
+}
+
+.grid-polaroid p {
+    white-space: nowrap !important;
+    overflow: hidden;
+    text-align: center;
+    margin-top: .3em;
+    max-width: 275px;
+    color: var(--cor2);
+    font-family: var(--font1);
+}
+
+.content_classificacao {
+    display: flex;
+    margin-bottom: 1em;
+    flex-direction: column;
+}
+
+.grid-polaroid-classificacao  {
+    padding: .25em;
+    text-decoration: none;
+}
+
+.grid-polaroid-classificacao h2 {
+    width: 80%;
+    padding: .5em;
+    border-radius: 12px;
+    background-color: gray;
+}
+
+.edit-classificacao {
+    display: flex;
+}
+
+.edit-classificacao button {
+    border: 0;
+    width: 10%;
+    margin: 0 1em;
+    color: white;
+    border-radius: 12px;
+    background-color: var(--cor4);
+    transition: .3s all;
+}
+
+.edit-classificacao button:hover {
+    background-color: #f1b80c;
+}
+
+.edit-classificacao button a {
+    color: white;
+    font-size: 1.3em;
+    text-decoration: none;
+    font-family: var(--font1);
+}
+
+.edit-classificacao button:last-of-type {
+    margin: 0;
+    background-color: var(--cor5);
+}
+
+.edit-classificacao button:last-of-type:hover {
+    background-color: #df2537;
+}
+
+/*subir*/
+#subir {
+    text-decoration: none;
+    background: var(--textbox);
+    bottom: 30px;
+    right: 30px;
+    color: white;
+    cursor: pointer;
+    padding: 10px;
+    font-size: 1em;
+    font-weight: bold;
+    position: fixed;
+    opacity: 0.8;
+}
+#subir:hover {
+    opacity:1;
+}

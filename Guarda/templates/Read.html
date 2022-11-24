@@ -1,0 +1,93 @@
+{% load static %}
+<link rel="stylesheet" href= {% static 'style.css'%}>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta2/css/all.min.css">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.1/jquery.js"></script>
+<script src="https://unpkg.com/scrollreveal"></script>
+<script src={% static 'script.js'%} defer></script>
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Projeto Guarda</title>
+</head>
+<body>
+    <header>
+        <nav>
+            <h1><a href="/">Projeto Guarda</a></h1>
+        </nav>
+    </header>
+
+    <main>
+        <!--part I-->
+        <div class="container">
+            <div class="divisor">
+                <h2>Todas as obras</h2>
+                <hr>
+            </div>
+            <div class="btn">
+                <div class="create-btn">
+                    <a href={% url 'url_forms3' %}><button>Adicionar Obra</button></a>
+                </div>
+            </div>
+
+            <div class="content" id ="first">
+                {% for obra in obras%}
+                <div class="grid-polaroid">
+                    <h2 class = "scroll_contant">{{obra}}</h2>
+                    <a href= {%url 'url_update3' obra.id%}><img src = {{obra.foto}} class = "photo"></a>
+                    <p class = "scroll_contant">{% if obra.autor != null %} {{obra.autor}} - {%endif%} {{obra.tipo_de_obra}} - {{obra.classificacao}}</p>
+                </div>
+                {% endfor %}
+            </div>
+
+            <!--part II-->
+            <div class="divisor">
+                <h2>Tipos as obras</h2>
+                <hr>
+            </div>
+            <div class="btn">
+            <div class="create-btn">
+                <a href="{% url 'url_forms' %}"><button>Adicionar Tipo de Obra</button></a>
+            </div>
+            </div>
+
+            <div class="content">
+                {% for tipo_de_obra in tipos_de_obras %}
+                <div class="grid-polaroid">
+                    <h2 class = "scroll_contant title_tipo_de_obra">{{tipo_de_obra}}</h2>
+                    <a href={% url 'url_update' tipo_de_obra.id%}><img src = {{tipo_de_obra.foto_obra}} class = "photo photo_tipo_de_obra"></a>
+                </div>
+                {% endfor %}
+            </div>
+
+            <!--part III-->
+            <div class="divisor">
+                <h2>Classificações</h2>
+                <hr>
+            </div>
+            <div class="btn">
+            <div class="create-btn">
+                <a href={%url 'url_forms2'%}><button>Adicionar Classificações</button></a>
+            </div>
+            </div>
+
+            <div class="content_classificacao">
+                {% for Classificacao in Classificacoes %}
+                <div class="grid-polaroid-classificacao">
+                    <div class="edit-classificacao">
+                        <h2>{{Classificacao}}</h2>
+                        <button><a href="{% url 'url_update2' Classificacao.id%}">Editar</a></button>
+                        <button><a href="{% url 'url_delete2' Classificacao.id%}">Remover</a></button>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+    </main>
+
+    <!--subir-->
+    <a id="subir"><i class="fas fa-arrow-up"></i> SUBIR</a>
+</body>
+</html>
