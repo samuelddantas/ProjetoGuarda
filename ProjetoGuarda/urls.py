@@ -15,27 +15,7 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path
-from Guarda.views import Create2
-from Guarda.views import Create
-from Guarda.views import Create3
-from Guarda.views import update
-from Guarda.views import update2
-from Guarda.views import update3
-from Guarda.views import Read
-from Guarda.views import delete
-from Guarda.views import delete2
-from Guarda.views import delete3
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('', Read, name = 'url_Read'),
-    path('forms/', Create, name ='url_forms'),
-    path('forms2/', Create2, name ='url_forms2'),
-    path('forms3/', Create3, name ='url_forms3'),
-    path('update/<int:pk>/', update, name = 'url_update'),
-    path('update2/<int:pk>/', update2, name = 'url_update2'),
-    path('update3/<int:pk>/', update3, name = 'url_update3'),
-    path('delete/<int:pk>/', delete, name = 'url_delete'),
-    path('delete2/<int:pk>/', delete2, name = 'url_delete2'),
-    path('delete3/<int:pk>/', delete3, name = 'url_delete3')
 ]
