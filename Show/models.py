@@ -1,4 +1,5 @@
 from django.db import models
+from django.conf    import settings
 
 # ======================================
 # Todos os Modelos Relacionados as Obras
@@ -54,6 +55,9 @@ class Genero_da_Obra(models.Model):
         verbose_name        = "Gênero da Obra"
         verbose_name_plural = "Gêneros da Obra"
 
+    def __str__(self):
+        return "%s / %s" % (self.geo_obr_obra, self.geo_gen_genero)
+
 # ============================================
 # Todos os Modelos Relacionados aos Produtores
 # ============================================
@@ -88,3 +92,19 @@ class Producao(models.Model):
 
     def __str__(self):
         return "%s - %s em %s" % (self.pro_fun_funcionario, self.pro_fuc_funcao, self.pro_obr_obra)
+
+# ======================================
+# Todos os Modelos Relacionados aos Usuários
+# ======================================
+
+class Obras_do_Usuario(models.Model):
+    odu_id = models.AutoField(primary_key=True)
+    odu_obr_id = models.ForeignKey(Obra, on_delete=models.CASCADE, default=1, verbose_name="Obra")
+    odu_use_id = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, default=1, verbose_name="Usuário") 
+
+    class Meta:
+        verbose_name        = "Obra Assistida"
+        verbose_name_plural = "Obras Assistidas"
+
+    def __str__(self):
+        return "%s : %s" % (self.odu_obr_id, self.odu_use_id)

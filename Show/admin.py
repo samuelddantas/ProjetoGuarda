@@ -10,3 +10,5 @@ admin.site.register(models.Genero_da_Obra)
 admin.site.register(models.Funcionario)
 admin.site.register(models.Funcao)
 admin.site.register(models.Producao)
+# Usuário
+admin.site.register(models.Obras_do_Usuario)
