@@ -1,4 +1,6 @@
 from django.contrib import admin
 from User           import models
 
-# Register your models here.
+# Usuário
+admin.site.register(models.Assistido)
+admin.site.register(models.Review)
