@@ -16,7 +16,7 @@ def createMidia(request):
         'midias_chave': midias,
     }
 
-    return render(request, "showMidia.html", listagem)
+    return render(request, "templates/showMidia.html", listagem)
 
 def updateMidia(request, id_midia):
     midia = models.Midia.objects.get(pk=id_midia)
