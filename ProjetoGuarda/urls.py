@@ -5,6 +5,10 @@ from User           import views as viewUser
 
 urlpatterns = [
     path('admin/', admin.site.urls, name="admin"),
+    path('login/', viewUser.loginUser, name="login"),
+    path('register/', viewUser.registerUser, name="register"),
+    # Páginas de Acesso
+    path('', viewShow.index, name="main"),
     # CRUD Mídia
     path('createMidia', viewShow.createMidia, name="cMidia"),
     path('updateMidia/<int:id_midia>', viewShow.updateMidia, name="uMidia"),

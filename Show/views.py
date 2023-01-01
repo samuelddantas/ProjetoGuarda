@@ -1,6 +1,9 @@
 from django.shortcuts import render, redirect
 from Show             import forms, models
 
+def index(request):
+    return render(request, "index.html")
+
 # ===============================
 # CRUD - Mídia
 # ===============================
@@ -16,7 +19,7 @@ def createMidia(request):
         'midias_chave': midias,
     }
 
-    return render(request, "templates/showMidia.html", listagem)
+    return render(request, "showMidia.html", listagem)
 
 def updateMidia(request, id_midia):
     midia = models.Midia.objects.get(pk=id_midia)

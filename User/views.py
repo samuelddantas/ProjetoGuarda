@@ -1,5 +1,57 @@
-from django.shortcuts   import render, redirect
-from User               import models, forms
+from django.shortcuts           import render, redirect
+from django.contrib.auth        import authenticate, login, logout
+from django.contrib.auth.models import User
+from User                       import models, forms
+
+# ===============================
+# Login e Registro
+# ===============================
+
+def loginUser(request):
+    if request.method == "GET":
+        return render(request, "login.html")
+    else:
+        username        = request.POST.get('username')
+        password        = request.POST.get('password')
+
+        user = authenticate(request, username=username, password=password)
+
+        if user:
+            login(request, user)
+            return redirect('main')
+        else:
+            erro = {'erro': 'Usuário ou Senha INVÁLIDA'}
+            return render(request, "login.html", erro)
+
+def logoutUser(request):
+    logout(request)
+
+def registerUser(request):
+    if request.method == "GET":
+        return render(request, "register.html")
+    else:
+        username        = request.POST.get('username')
+        password        = request.POST.get('password')
+        email           = request.POST.get('email')
+        first_name      = request.POST.get('first_name')
+        last_name       = request.POST.get('last_name')
+
+        userVerify  = User.objects.filter(username=username).first()
+        emailVerify = User.objects.filter(email=email).first()
+
+        if userVerify:
+            erro = {'erro': 'Usuário ou Senha INVÁLIDA'}
+            return render(request, "register.html", erro)
+
+        if emailVerify:
+            erro = {'erro': 'E-mail já está sendo utilizado.'}
+            return render(request, "register.html", erro)
+
+        user = User.objects.create_user(username=username, email=email, password=password, first_name=first_name, last_name=last_name)
+        user.save()
+
+        login(request, user)
+        return redirect('main')
 
 # ===============================
 # CRUD - Assistido
