@@ -1,8 +1,27 @@
-from django.shortcuts import render, redirect
-from Show             import forms, models
+from django.shortcuts           import render, redirect
+from Show                       import forms, models
+from User                       import models as UserModels
+from django.contrib.auth.models import User
 
 def index(request):
-    return render(request, "index.html")
+    user = User.objects.filter(id=request.user.id).first()
+
+    obras            = models.Obra.objects.all()
+    obras_assistidas = UserModels.Assistido.objects.filter(ass_use_id=user)
+    # Para garantir que só virão as reviews do usuário
+    obras_review     = []
+    reviewAll     = UserModels.Review.objects.all()
+    for assistido in obras_assistidas:
+        for review in reviewAll:
+            if review.rev_ass_id_id == assistido.ass_id:
+                obras_review.append(UserModels.Review.objects.get(rev_ass_id=review.rev_ass_id))       
+
+    listagem = {
+        'obr': obras,
+        'obr_ass_chave': obras_assistidas,
+        'obr_rev_chave': obras_review
+    }
+    return render(request, "index.html", listagem)
 
 # ===============================
 # CRUD - Mídia
@@ -77,15 +96,31 @@ def deleteGenero(request, id_genero):
 def createObra(request):
     form = forms.ObraForm(request.POST or None)
     if form.is_valid():
-        form.save()
-        return redirect("cObra")
+        # Criando a Obra
+        newObra = models.Obra.objects.create(
+            obr_titulo          =form['obr_titulo'].value(),
+            obr_sinopse         =form['obr_sinopse'].value(),
+            obr_data            =form['obr_data'].value(),
+            obr_classificacao   =form['obr_classificacao'].value(),
+            obr_mid_midia_id    =form['obr_mid_midia'].value(),
+        )
+        newObra.save()
+        # Colocando seus Gêneros
+        for genero in form['gen_genero'].value():
+            newGeneroDaObra = models.Genero_da_Obra.objects.create(
+                geo_obr_obra    =newObra,
+                geo_gen_genero  =models.Genero.objects.get(gen_id=genero),
+            )
+            newGeneroDaObra.save()
+        # Colocando sua Produção
+        
+        return redirect("main")
     Obras = models.Obra.objects.all()
     listagem = {
         'form_Obra': form,
         'Obras_chave': Obras,
     }
-
-    return render(request, "showObra.html", listagem)
+    return render(request, "createObra.html", listagem)
 
 def updateObra(request, id_Obra):
     Obra = models.Obra.objects.get(pk=id_Obra)
@@ -96,7 +131,7 @@ def updateObra(request, id_Obra):
     listagem = {
         'form_Obra': form,
     }
-    return render(request, "showObra.html", listagem)
+    return render(request, "createObra.html", listagem)
 
 def deleteObra(request, id_Obra):
     Obra = models.Obra.objects.get(pk=id_Obra)

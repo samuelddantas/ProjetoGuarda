@@ -24,7 +24,7 @@ class Genero(models.Model):
 
 class Obra(models.Model):
     obr_id              = models.AutoField(primary_key=True)
-    # obr_capa            = models.ImageField(height_field=100, width_field=100)
+    
     obr_titulo          = models.CharField(max_length=100, verbose_name="Título")
     obr_sinopse         = models.CharField(max_length=500, verbose_name="Sinopse")
     obr_data            = models.DateField(verbose_name="Data de Lançamento")
@@ -39,8 +39,8 @@ class Obra(models.Model):
     ]
 
     obr_classificacao   = models.CharField(max_length=2, choices=classificacao, default='L', verbose_name="Classificação Etária")
-
-    obr_mid_mídia       = models.ForeignKey(Midia, on_delete=models.CASCADE, default=1, verbose_name="Mídia")
+    obr_mid_midia       = models.ForeignKey(Midia, on_delete=models.CASCADE, default=1, verbose_name="Mídia")
+    # obr_capa            = models.ImageField(height_field=100, width_field=100)
 
     def __str__(self):
         return self.obr_titulo

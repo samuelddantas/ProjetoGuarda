@@ -6,6 +6,7 @@ from User           import views as viewUser
 urlpatterns = [
     path('admin/', admin.site.urls, name="admin"),
     path('login/', viewUser.loginUser, name="login"),
+    path('logout/', viewUser.logoutUser, name="logout"),
     path('register/', viewUser.registerUser, name="register"),
     # Páginas de Acesso
     path('', viewShow.index, name="main"),

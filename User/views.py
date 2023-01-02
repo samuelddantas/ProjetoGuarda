@@ -25,6 +25,7 @@ def loginUser(request):
 
 def logoutUser(request):
     logout(request)
+    return redirect('main')
 
 def registerUser(request):
     if request.method == "GET":
@@ -93,7 +94,19 @@ def deleteAssistido(request, id_Assistido):
 def createReview(request):
     form = forms.ReviewForm(request.POST or None)
     if form.is_valid():
-        form.save()
+        print(request.user)
+        newAssistido = models.Assistido.objects.create(
+            ass_obr_id  = models.Obra.objects.get(obr_id=form['obr_obra'].value()),
+            ass_use_id = User.objects.get(id=request.user.id),
+        )
+        newAssistido.save()
+        print(newAssistido)
+        newReview = models.Review.objects.create(
+            rev_review          = form['rev_review'].value(),
+            rev_classificacao   = form['rev_classificacao'].value(),
+            rev_ass_id          = models.Assistido.objects.get(ass_id=newAssistido.ass_id),
+        )
+        newReview.save()
         return redirect("cReview")
     Reviews = models.Review.objects.all()
     listagem = {
@@ -101,7 +114,7 @@ def createReview(request):
         'Reviews_chave': Reviews,
     }
 
-    return render(request, "showReview.html", listagem)
+    return render(request, "createReview.html", listagem)
 
 def updateReview(request, id_Review):
     Review = models.Review.objects.get(pk=id_Review)
@@ -112,7 +125,7 @@ def updateReview(request, id_Review):
     listagem = {
         'form_Review': form,
     }
-    return render(request, "showReview.html", listagem)
+    return render(request, "createReview.html", listagem)
 
 def deleteReview(request, id_Review):
     Review = models.Review.objects.get(pk=id_Review)

@@ -8,5 +8,28 @@
 </head>
 <body>
     <h1>Página Principal</h1>
+
+    {% if user.is_authenticated %}
+    <h3>Está logado {{ user.username }}</h3>
+        <h5><a href='logout'>Logout</a></h5>
+        <h5><a href='{% url 'cObra' %}'>Registrar Obra</a></h5>
+        <h5><a href='{% url 'cReview' %}'>Registrar Obra Assistida</a></h5>
+    <h3>Obras Assistidas</h3>
+    {% for obras_assistidas in obr_ass_chave %}
+        <div>
+            <h4>{{ obras_assistidas }}
+            {% for reviews in obr_rev_chave %}
+                {% if reviews.rev_ass_id_id == obras_assistidas.ass_id %}
+            {{ reviews.rev_classificacao}}</h4>
+                <p>{{ reviews.rev_review }}</p>
+                {% endif%}
+            {% endfor %}
+        </div>
+    {% endfor %}
+    {% else %}
+    <h3>Não está logado</h3>
+    <h5><a href='login'>Login</a></h5>
+    <h5><a href='register'>Registro</a></h5>
+    {% endif %}
 </body>
 </html>
