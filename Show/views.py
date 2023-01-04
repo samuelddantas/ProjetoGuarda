@@ -6,20 +6,15 @@ from django.contrib.auth.models import User
 def index(request):
     user = User.objects.filter(id=request.user.id).first()
 
-    obras            = models.Obra.objects.all()
-    obras_assistidas = UserModels.Assistido.objects.filter(ass_use_id=user)
-    # Para garantir que só virão as reviews do usuário
-    obras_review     = []
-    reviewAll     = UserModels.Review.objects.all()
-    for assistido in obras_assistidas:
-        for review in reviewAll:
-            if review.rev_ass_id_id == assistido.ass_id:
-                obras_review.append(UserModels.Review.objects.get(rev_ass_id=review.rev_ass_id))       
+    obras = models.Obra.objects.all()
+    if user:
+        reviews = UserModels.Review.objects.filter(rev_use_id=user.id)
+    else:
+        reviews = None
 
     listagem = {
-        'obr': obras,
-        'obr_ass_chave': obras_assistidas,
-        'obr_rev_chave': obras_review
+        'obras': obras,
+        'reviews': reviews,
     }
     return render(request, "index.html", listagem)
 
@@ -31,7 +26,7 @@ def createMidia(request):
     form = forms.MidiaForm(request.POST or None)
     if form.is_valid():
         form.save()
-        return redirect("cMidia")
+        return redirect("main")
     midias = models.Midia.objects.all()
     listagem = {
         'form_midia': form,
@@ -45,7 +40,7 @@ def updateMidia(request, id_midia):
     form  = forms.MidiaForm(request.POST or None, instance=midia)
     if form.is_valid():
         form.save()
-        return redirect("cMidia")
+        return redirect("main")
     listagem = {
         'form_midia': form,
     }
@@ -54,7 +49,7 @@ def updateMidia(request, id_midia):
 def deleteMidia(request, id_midia):
     midia = models.Midia.objects.get(pk=id_midia)
     midia.delete()
-    return redirect("cMidia")
+    return redirect("main")
 
 # ===============================
 # CRUD - Gênero
@@ -64,7 +59,7 @@ def createGenero(request):
     form = forms.GeneroForm(request.POST or None)
     if form.is_valid():
         form.save()
-        return redirect("cGenero")
+        return redirect("main")
     generos = models.Genero.objects.all()
     listagem = {
         'form_genero': form,
@@ -78,7 +73,7 @@ def updateGenero(request, id_genero):
     form  = forms.GeneroForm(request.POST or None, instance=genero)
     if form.is_valid():
         form.save()
-        return redirect("cGenero")
+        return redirect("main")
     listagem = {
         'form_genero': form,
     }
@@ -87,7 +82,7 @@ def updateGenero(request, id_genero):
 def deleteGenero(request, id_genero):
     genero = models.Genero.objects.get(pk=id_genero)
     genero.delete()
-    return redirect("cGenero")
+    return redirect("main")
 
 # ===============================
 # CRUD - Obra
@@ -96,176 +91,28 @@ def deleteGenero(request, id_genero):
 def createObra(request):
     form = forms.ObraForm(request.POST or None)
     if form.is_valid():
-        # Criando a Obra
-        newObra = models.Obra.objects.create(
-            obr_titulo          =form['obr_titulo'].value(),
-            obr_sinopse         =form['obr_sinopse'].value(),
-            obr_data            =form['obr_data'].value(),
-            obr_classificacao   =form['obr_classificacao'].value(),
-            obr_mid_midia_id    =form['obr_mid_midia'].value(),
-        )
-        newObra.save()
-        # Colocando seus Gêneros
-        for genero in form['gen_genero'].value():
-            newGeneroDaObra = models.Genero_da_Obra.objects.create(
-                geo_obr_obra    =newObra,
-                geo_gen_genero  =models.Genero.objects.get(gen_id=genero),
-            )
-            newGeneroDaObra.save()
-        # Colocando sua Produção
-        
+        form.save()
         return redirect("main")
     Obras = models.Obra.objects.all()
     listagem = {
         'form_Obra': form,
         'Obras_chave': Obras,
     }
-    return render(request, "createObra.html", listagem)
+
+    return render(request, "showObra.html", listagem)
 
 def updateObra(request, id_Obra):
     Obra = models.Obra.objects.get(pk=id_Obra)
     form  = forms.ObraForm(request.POST or None, instance=Obra)
     if form.is_valid():
         form.save()
-        return redirect("cObra")
+        return redirect("main")
     listagem = {
         'form_Obra': form,
     }
-    return render(request, "createObra.html", listagem)
+    return render(request, "showObra.html", listagem)
 
 def deleteObra(request, id_Obra):
     Obra = models.Obra.objects.get(pk=id_Obra)
     Obra.delete()
-    return redirect("cObra")
-
-# ===============================
-# CRUD - Genero da Obra
-# ===============================
-
-def createGenero_da_Obra(request):
-    form = forms.Genero_da_ObraForm(request.POST or None)
-    if form.is_valid():
-        form.save()
-        return redirect("cGenero_da_Obra")
-    Genero_da_Obras = models.Genero_da_Obra.objects.all()
-    listagem = {
-        'form_Genero_da_Obra': form,
-        'Genero_da_Obras_chave': Genero_da_Obras,
-    }
-
-    return render(request, "showGenero_da_Obra.html", listagem)
-
-def updateGenero_da_Obra(request, id_Genero_da_Obra):
-    Genero_da_Obra = models.Genero_da_Obra.objects.get(pk=id_Genero_da_Obra)
-    form  = forms.Genero_da_ObraForm(request.POST or None, instance=Genero_da_Obra)
-    if form.is_valid():
-        form.save()
-        return redirect("cGenero_da_Obra")
-    listagem = {
-        'form_Genero_da_Obra': form,
-    }
-    return render(request, "showGenero_da_Obra.html", listagem)
-
-def deleteGenero_da_Obra(request, id_Genero_da_Obra):
-    Genero_da_Obra = models.Genero_da_Obra.objects.get(pk=id_Genero_da_Obra)
-    Genero_da_Obra.delete()
-    return redirect("cGenero_da_Obra")
-
-# ===============================
-# CRUD - Funcionario
-# ===============================
-
-def createFuncionario(request):
-    form = forms.FuncionarioForm(request.POST or None)
-    if form.is_valid():
-        form.save()
-        return redirect("cFuncionario")
-    Funcionarios = models.Funcionario.objects.all()
-    listagem = {
-        'form_Funcionario': form,
-        'Funcionarios_chave': Funcionarios,
-    }
-
-    return render(request, "showFuncionario.html", listagem)
-
-def updateFuncionario(request, id_Funcionario):
-    Funcionario = models.Funcionario.objects.get(pk=id_Funcionario)
-    form  = forms.FuncionarioForm(request.POST or None, instance=Funcionario)
-    if form.is_valid():
-        form.save()
-        return redirect("cFuncionario")
-    listagem = {
-        'form_Funcionario': form,
-    }
-    return render(request, "showFuncionario.html", listagem)
-
-def deleteFuncionario(request, id_Funcionario):
-    Funcionario = models.Funcionario.objects.get(pk=id_Funcionario)
-    Funcionario.delete()
-    return redirect("cFuncionario")
-
-# ===============================
-# CRUD - Genero da Obra
-# ===============================
-
-def createFuncao(request):
-    form = forms.FuncaoForm(request.POST or None)
-    if form.is_valid():
-        form.save()
-        return redirect("cFuncao")
-    Funcaos = models.Funcao.objects.all()
-    listagem = {
-        'form_Funcao': form,
-        'Funcaos_chave': Funcaos,
-    }
-
-    return render(request, "showFuncao.html", listagem)
-
-def updateFuncao(request, id_Funcao):
-    Funcao = models.Funcao.objects.get(pk=id_Funcao)
-    form  = forms.FuncaoForm(request.POST or None, instance=Funcao)
-    if form.is_valid():
-        form.save()
-        return redirect("cFuncao")
-    listagem = {
-        'form_Funcao': form,
-    }
-    return render(request, "showFuncao.html", listagem)
-
-def deleteFuncao(request, id_Funcao):
-    Funcao = models.Funcao.objects.get(pk=id_Funcao)
-    Funcao.delete()
-    return redirect("cFuncao")
-
-# ===============================
-# CRUD - Genero da Obra
-# ===============================
-
-def createProducao(request):
-    form = forms.ProducaoForm(request.POST or None)
-    if form.is_valid():
-        form.save()
-        return redirect("cProducao")
-    Producaos = models.Producao.objects.all()
-    listagem = {
-        'form_Producao': form,
-        'Producaos_chave': Producaos,
-    }
-
-    return render(request, "showProducao.html", listagem)
-
-def updateProducao(request, id_Producao):
-    Producao = models.Producao.objects.get(pk=id_Producao)
-    form  = forms.ProducaoForm(request.POST or None, instance=Producao)
-    if form.is_valid():
-        form.save()
-        return redirect("cProducao")
-    listagem = {
-        'form_Producao': form,
-    }
-    return render(request, "showProducao.html", listagem)
-
-def deleteProducao(request, id_Producao):
-    Producao = models.Producao.objects.get(pk=id_Producao)
-    Producao.delete()
-    return redirect("cProducao")
+    return redirect("main")

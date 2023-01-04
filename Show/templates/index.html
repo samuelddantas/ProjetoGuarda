@@ -10,20 +10,22 @@
     <h1>Página Principal</h1>
 
     {% if user.is_authenticated %}
-    <h3>Está logado {{ user.username }}</h3>
+    <h3>Está logado {{ user.username }}
+        <a href="{% url 'uUser' user.id %}">Update</a>
+        {% comment %} <a href="{% url 'dUser' user.id %}" >Delete</a> {% endcomment %}
+    </h3>
         <h5><a href='logout'>Logout</a></h5>
         <h5><a href='{% url 'cObra' %}'>Registrar Obra</a></h5>
         <h5><a href='{% url 'cReview' %}'>Registrar Obra Assistida</a></h5>
     <h3>Obras Assistidas</h3>
-    {% for obras_assistidas in obr_ass_chave %}
+    {% for review in reviews %}
         <div>
-            <h4>{{ obras_assistidas }}
-            {% for reviews in obr_rev_chave %}
-                {% if reviews.rev_ass_id_id == obras_assistidas.ass_id %}
-            {{ reviews.rev_classificacao}}</h4>
-                <p>{{ reviews.rev_review }}</p>
-                {% endif%}
-            {% endfor %}
+            <h4>{{ review.rev_obr_id.obr_titulo }}
+                <a href="{% url 'uReview' review.rev_id %}">Update</a>
+                <a href="{% url 'dReview' review.rev_id %}">Delete</a>
+            </h4>
+            <h5>Nota: {{ review.rev_nota }}</h5>
+            <p>{{ review.rev_review }}</p>
         </div>
     {% endfor %}
     {% else %}
@@ -31,5 +33,15 @@
     <h5><a href='login'>Login</a></h5>
     <h5><a href='register'>Registro</a></h5>
     {% endif %}
+
+    <h3>Obras Registradas</h3>
+    {% for obra in obras %}
+    <div>
+        <h4>{{ obra }}
+            <a href="{% url 'uObra' obra.obr_id %}">Update</a>
+            <a href="{% url 'dObra' obra.obr_id %}">Delete</a>
+        </h4>
+    </div>
+    {% endfor %}
 </body>
 </html>

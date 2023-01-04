@@ -94,40 +94,48 @@ def deleteAssistido(request, id_Assistido):
 def createReview(request):
     form = forms.ReviewForm(request.POST or None)
     if form.is_valid():
-        print(request.user)
-        newAssistido = models.Assistido.objects.create(
-            ass_obr_id  = models.Obra.objects.get(obr_id=form['obr_obra'].value()),
-            ass_use_id = User.objects.get(id=request.user.id),
-        )
-        newAssistido.save()
-        print(newAssistido)
-        newReview = models.Review.objects.create(
-            rev_review          = form['rev_review'].value(),
-            rev_classificacao   = form['rev_classificacao'].value(),
-            rev_ass_id          = models.Assistido.objects.get(ass_id=newAssistido.ass_id),
-        )
-        newReview.save()
-        return redirect("cReview")
+        form.save()
+        return redirect("main")
     Reviews = models.Review.objects.all()
     listagem = {
         'form_Review': form,
         'Reviews_chave': Reviews,
     }
 
-    return render(request, "createReview.html", listagem)
+    return render(request, "showReview.html", listagem)
 
 def updateReview(request, id_Review):
     Review = models.Review.objects.get(pk=id_Review)
     form  = forms.ReviewForm(request.POST or None, instance=Review)
     if form.is_valid():
         form.save()
-        return redirect("cReview")
+        return redirect("main")
     listagem = {
         'form_Review': form,
     }
-    return render(request, "createReview.html", listagem)
+    return render(request, "showReview.html", listagem)
 
 def deleteReview(request, id_Review):
     Review = models.Review.objects.get(pk=id_Review)
     Review.delete()
-    return redirect("cReview")
+    return redirect("main")
+
+# ===============================
+# Read e Delete - User
+# ===============================
+
+def updateUser(request, id_User):
+    user = User.objects.get(pk=id_User)
+    form  = forms.UserForm(request.POST or None, instance=user)
+    if form.is_valid():
+        form.save()
+        return redirect("main")
+    listagem = {
+        'form_User': form,
+    }
+    return render(request, "showUser.html", listagem)
+
+def deleteUser(request, id_User):
+    user = User.objects.get(pk=id_User)
+    user.delete()
+    return redirect("main")

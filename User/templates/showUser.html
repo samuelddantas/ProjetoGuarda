@@ -4,13 +4,17 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Create Obra</title>
+    <title>User</title>
 </head>
 <body>
+    {% if user.get_username == form_User.username.value or user.is_staff %}
     <form method="POST">
         {% csrf_token %}
-        {{ form_Obra.as_p}}
+        {{ form_User.as_p }}
         <button type="submit">Enviar</button>
     </form>    
+    {% else %}
+    <h1>Sem permissão.</h1>
+    {% endif %}
 </body>
 </html>

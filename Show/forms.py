@@ -16,48 +16,22 @@ class GeneroForm(ModelForm):
         model = models.Genero
         fields = '__all__'
 
-class ObraForm(forms.Form):
-    obr_titulo          = forms.CharField(label="Título da Obra", max_length=100)
-    obr_sinopse         = forms.CharField(label="Sinopse", max_length=500)
-    obr_data            = forms.DateField(label="Data de Lançamento",widget=forms.DateInput(attrs={'type': 'date'}))
-
-    classificacao       = [
-        ('L' , 'L'),
-        ('10', '10'),
-        ('12', '12'),
-        ('14', '14'),
-        ('16', '16'),
-        ('18', '18'),
-    ]
-
-    obr_classificacao   = forms.ChoiceField(label="Classificação Indicativa",choices=classificacao)
-    obr_mid_midia       = forms.ModelChoiceField(label="Mídia", queryset=models.Midia.objects.all())
-    # Colocando os Gêneros
-    gen_genero         = forms.ModelMultipleChoiceField(label="Gêneros", queryset=models.Genero.objects.all())
-    # Colocando os Produtores
-    
-
-class Genero_da_ObraForm(ModelForm):
+class ObraForm(ModelForm):
     class Meta:
-        model = models.Genero_da_Obra
+        model = models.Obra
         fields = '__all__'
+        # Serve para Editar o Tipo de Campo, Classes e Id.
+        widgets = {
+            'obr_titulo':           forms.TextInput                 (attrs={'class':'form-control'}),
+            'obr_sinopse':          forms.Textarea                  (attrs={'class':'form-control'}),
+            'obr_data':             forms.DateInput                 (attrs={
+                'class':'form-control',
+                'type': 'date',
+            }),
+            'obr_producao':         forms.Textarea                  (attrs={'class':'form-control'}),
+            'obr_capa':             forms.URLInput                  (attrs={'class':'form-control'}),
+            'obr_classificacao':    forms.RadioSelect               (attrs={'class':'form-control'}),
+            'obr_mid_midia':        forms.Select                    (attrs={'class':'form-control'}),
+            'obr_gen_genero':       forms.CheckboxSelectMultiple    (attrs={'class':'form-control'}),
+        }
 
-
-# ======================================
-# Todos os Forms Relacionados as Produções
-# ======================================
-
-class FuncionarioForm(ModelForm):
-    class Meta:
-        model = models.Funcionario
-        fields = '__all__'
-
-class FuncaoForm(ModelForm):
-    class Meta:
-        model = models.Funcao
-        fields = '__all__'
-
-class ProducaoForm(ModelForm):
-    class Meta:
-        model = models.Producao
-        fields = '__all__'
