@@ -31,7 +31,7 @@
 	<meta name="description" content="">
 	<meta name="keywords" content="">
 	<meta name="author" content="Dmitry Volkov">
-	<title>FlixGo – Online Movies, TV Shows & Cinema HTML Template</title>
+	<title>Projeto Guarda</title>
 
 </head>
 <body class="body">
@@ -134,78 +134,110 @@
 				<div class="tab-pane fade show active" id="tab-1" role="tabpanel" aria-labelledby="1-tab">
 					<div class="row">
 						<!-- card -->
-                        {% for obra in obras %}
-						<div class="col-6 col-sm-12 col-lg-6">
-							<div class="card card--list">
-								<div class="row">
-									<div class="col-12 col-sm-4">
-										<div class="card__cover">
-											<img src="{{ obra.obr_capa}}" alt="">
-											<a href="#" class="card__play">
-												<i class="icon ion-ios-play"></i>
-											</a>
-										</div>
-									</div>
-
-									<div class="col-12 col-sm-8">
-										<div class="card__content">
-											<h3 class="card__title"><a href="#">{{ obra }}</a></h3>
-											<!-- <span class="card__category">
-												<a href="#">{{ obra.obr_gen_genero }}</a>
-												<a href="#">Triler</a>
-                                                
-											</span> -->
-
-											<div class="card__wrap">
-												<!-- <span class="card__rate"><i class="icon ion-ios-star"></i>8.4</span> -->
-
-												<ul class="card__list">
-													<li>{{ obra.obr_classificacao}}</li>
-                                                    <li>{{ obra.obr_mid_midia}}</li>
-												</ul>
+						{% for obra in obras %}
+							<div class="col-6 col-sm-12 col-lg-6">
+								<div class="card card--list">
+									<div class="row">
+										<div class="col-12 col-sm-4">
+											<div class="card__cover">
+												<img src="{{ obra.obr_capa}}" alt="">
+												<a href="#" class="card__play">
+													<i class="icon ion-ios-play"></i>
+												</a>
 											</div>
+										</div>
 
-											<div class="card__description">
-												<p>{{ obra.obr_sinopse}}</p>
+										<div class="col-12 col-sm-8">
+											<div class="card__content">
+												<h3 class="card__title"><a href="#">{{ obra }}</a></h3>
+												<span class="card__category">
+													{% for generos in obra.obr_gen_genero.all %}
+													<a href="#">{{ generos }}</a>
+													{% endfor %}
+												</span>
+
+												<div class="card__wrap">
+													<span class="card__rate">
+														<i class="icon ion-ios-star"></i>
+														{% for key, media in medias.items %}
+															{% if key == obra.obr_titulo %}
+																{{ media }}
+															{% endif %}
+														{% endfor %}
+													</span>
+
+													<ul class="card__list">
+														<li>{{ obra.obr_classificacao}}</li>
+														<li>{{ obra.obr_mid_midia}}</li>
+													</ul>
+												</div>
+
+												<div class="card__description">
+													<p>{{ obra.obr_sinopse}}</p>
+												</div>
 											</div>
 										</div>
 									</div>
 								</div>
 							</div>
-						</div>
-                        {% endfor %}
-
-                        <div class="tab-pane fade show active" id="tab-2" role="tabpanel" aria-labelledby="2-tab">
-                            <div class="row">
-                                <!-- card -->
-                                {% for obra in obras %}
-                                
-                                {% endfor %}
-						<!-- end card -->
+						{% endfor %}
 					</div>
 				</div>
                 <div class="tab-pane fade" id="tab-2" role="tabpanel" aria-labelledby="2-tab">
 					<div class="row">
-						<!-- card -->
-						<div class="col-6 col-sm-4 col-lg-3 col-xl-2">
-							<div class="card">
-								<div class="card__cover">
-									<img src="img/covers/cover.jpg" alt="">
-									<a href="#" class="card__play">
-										<i class="icon ion-ios-play"></i>
-									</a>
+						{% for review in reviewsUser %}
+							{% for obra in obras %}
+								{% if review.rev_obr_id_id == obra.obr_id %}
+								<div class="col-6 col-sm-12 col-lg-6">
+									<div class="card card--list">
+										<div class="row">
+											<div class="col-12 col-sm-4">
+												<div class="card__cover">
+													<img src="{{ obra.obr_capa}}" alt="">
+													<a href="#" class="card__play">
+														<i class="icon ion-ios-play"></i>
+													</a>
+												</div>
+											</div>
+
+											<div class="col-12 col-sm-8">
+												<div class="card__content">
+													<h3 class="card__title"><a href="#">{{ obra }}</a></h3>
+													<span class="card__category">
+														{% for generos in obra.obr_gen_genero.all %}
+														<a href="#">{{ generos }}</a>
+														{% endfor %}
+													</span>
+
+													<div class="card__wrap">
+														<span class="card__rate">
+															<i class="icon ion-ios-star"></i>
+															{{ review.rev_nota }}
+														</span>
+
+														<ul class="card__list">
+															<li>{{ obra.obr_classificacao}}</li>
+															<li>{{ obra.obr_mid_midia}}</li>
+														</ul>
+													</div>
+
+													<div class="card__description">
+														{% for review in reviewsUser %}
+															{% if review.rev_use_id_id == user.id %}
+																{% if review.rev_obr_id_id == obra.obr_id %}
+																	<p>{{ review.rev_review}}</p>
+																{% endif %}
+															{% endif %}
+														{% endfor %}
+													</div>
+												</div>
+											</div>
+										</div>
+									</div>
 								</div>
-								<div class="card__content">
-									<h3 class="card__title"><a href="#">I Dream in Another Language</a></h3>
-									<span class="card__category">
-										<a href="#">Action</a>
-										<a href="#">Triler</a>
-									</span>
-									<span class="card__rate"><i class="icon ion-ios-star"></i>8.4</span>
-								</div>
-							</div>
-						</div>
-						<!-- end card -->
+								{% endif %}
+							{% endfor %}
+						{% endfor %}	
 					</div>
 				</div>
 			</div>

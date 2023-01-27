@@ -3,18 +3,33 @@ from Show                       import forms, models
 from User                       import models as UserModels
 from django.contrib.auth.models import User
 
+def mediaReview(reviews, obras):
+    mediaGeral = {}
+    for obra in obras:
+        mediaLocal = 0
+        lenReviews = 0
+        for review in reviews:
+            if review.rev_obr_id_id == obra.obr_id:
+                mediaLocal += review.rev_nota
+                lenReviews += 1
+        mediaLocal = mediaLocal/(lenReviews if lenReviews != 0 else 1)
+        mediaGeral[obra.obr_titulo] = round(mediaLocal, 2)
+    return mediaGeral
+
 def index(request):
     user = User.objects.filter(id=request.user.id).first()
-
     obras = models.Obra.objects.all()
+    reviews = UserModels.Review.objects.all()
+
     if user:
-        reviews = UserModels.Review.objects.filter(rev_use_id=user.id)
+        reviewsUser = UserModels.Review.objects.filter(rev_use_id=user.id)
     else:
-        reviews = None
+        reviewsUser = None
 
     listagem = {
         'obras': obras,
-        'reviews': reviews,
+        'reviewsUser': reviewsUser,
+        'medias': mediaReview(reviews, obras),
     }
     return render(request, "index.html", listagem)
 
