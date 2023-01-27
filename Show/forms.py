@@ -52,7 +52,7 @@ class ObraForm(ModelForm):
                 'placeholder': 'Tipo de Mídia'
             }),
             'obr_gen_genero':       forms.SelectMultiple    (attrs={
-                'class':'sign__input selectMultiple',
+                'class':'sign__input',
                 'placeholder': 'Gênero da Obra',
                 'style': "height: auto;",
             }),
