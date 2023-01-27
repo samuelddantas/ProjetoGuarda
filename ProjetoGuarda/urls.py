@@ -22,15 +22,11 @@ urlpatterns = [
     path('createGenero', viewShow.createGenero, name="cGenero"),
     path('updateGenero/<int:id_genero>', viewShow.updateGenero, name="uGenero"),
     path('deleteGenero/<int:id_genero>', viewShow.deleteGenero, name="dGenero"),
-    # CRUD Produção
+    # CRUD Obra
     path('createObra', viewShow.createObra, name="cObra"),
     path('updateObra/<int:id_Obra>', viewShow.updateObra, name="uObra"),
     path('deleteObra/<int:id_Obra>', viewShow.deleteObra, name="dObra"),
-    # CRUD Assistido
-    path('createAssistido', viewUser.createAssistido, name="cAssistido"),
-    path('updateAssistido/<int:id_Assistido>', viewUser.updateAssistido, name="uAssistido"),
-    path('deleteAssistido/<int:id_Assistido>', viewUser.deleteAssistido, name="dAssistido"),
-    # CRUD Produção
+    # CRUD Review
     path('createReview', viewUser.createReview, name="cReview"),
     path('updateReview/<int:id_Review>', viewUser.updateReview, name="uReview"),
     path('deleteReview/<int:id_Review>', viewUser.deleteReview, name="dReview"),

@@ -2,6 +2,7 @@ from django.shortcuts           import render, redirect
 from django.contrib.auth        import authenticate, login, logout
 from django.contrib.auth.models import User
 from User                       import models, forms
+from Show.models                import Obra
 
 # ===============================
 # Login e Registro
@@ -55,46 +56,20 @@ def registerUser(request):
         return redirect('main')
 
 # ===============================
-# CRUD - Assistido
-# ===============================
-
-def createAssistido(request):
-    form = forms.AssistidoForm(request.POST or None)
-    if form.is_valid():
-        form.save()
-        return redirect("cAssistido")
-    Assistidos = models.Assistido.objects.all()
-    listagem = {
-        'form_Assistido': form,
-        'Assistidos_chave': Assistidos,
-    }
-
-    return render(request, "showAssistido.html", listagem)
-
-def updateAssistido(request, id_Assistido):
-    Assistido = models.Assistido.objects.get(pk=id_Assistido)
-    form  = forms.AssistidoForm(request.POST or None, instance=Assistido)
-    if form.is_valid():
-        form.save()
-        return redirect("cAssistido")
-    listagem = {
-        'form_Assistido': form,
-    }
-    return render(request, "showAssistido.html", listagem)
-
-def deleteAssistido(request, id_Assistido):
-    Assistido = models.Assistido.objects.get(pk=id_Assistido)
-    Assistido.delete()
-    return redirect("cAssistido")
-
-# ===============================
 # CRUD - Review
 # ===============================
 
 def createReview(request):
     form = forms.ReviewForm(request.POST or None)
+    user = User.objects.filter(id=request.user.id).first()
     if form.is_valid():
-        form.save()
+        review = models.Review.objects.create(
+            rev_obr_id  = Obra.objects.get(obr_id=form['rev_obr_id'].value()),
+            rev_use_id  = User.objects.get(id=user.id),
+            rev_review  = form['rev_review'].value(),
+            rev_nota    = form['rev_nota'].value(),
+        )
+        review.save()
         return redirect("main")
     Reviews = models.Review.objects.all()
     listagem = {

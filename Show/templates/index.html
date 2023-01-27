@@ -55,9 +55,11 @@
                                 <li class="header__nav-item">
 									<a class="header__nav-link" href="{% url 'cObra' %}" role="button" id="dropdownMenuHome" aria-haspopup="true" aria-expanded="false">Registrar obra</a>
 								</li>
+								{% if user.is_authenticated %}
                                 <li class="header__nav-item">
 									<a class="header__nav-link" href="{% url 'cReview' %}" role="button" id="dropdownMenuHome" aria-haspopup="true" aria-expanded="false">Registrar obra assistida</a>
 								</li>
+								{% endif %}
 
 							</ul>
 							<!-- end header nav -->

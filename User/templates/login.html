@@ -31,17 +31,16 @@
 	<meta name="description" content="">
 	<meta name="keywords" content="">
 	<meta name="author" content="Dmitry Volkov">
-	<title>FlixGo – Online Movies, TV Shows & Cinema HTML Template</title>
+	<title>Login</title>
 
 </head>
 <body class="body">
 
-	<div class="sign section--bg" data-bg="img/section/section.jpg">
+	<div class="sign section--bg" data-bg="{% static 'img/section/section.jpg' %}">
 		<div class="container">
 			<div class="row">
 				<div class="col-12">
 					<div class="sign__content">
-						<!-- authorization form -->
 						<form action="{% url 'login' %}" class="sign__form"  method="POST">
                             {% csrf_token %}
 							<a href="{% url 'main' %}" class="sign__logo">
@@ -60,35 +59,13 @@
                             {{ erro }}
 
 							<span class="sign__text">Não tem uma conta? <a href="{% url 'register' %}">Crie!</a></span>
-
-							<!-- <span class="sign__text"><a href="#">Forgot password?</a></span> -->
-
 						</form>
-						<!-- end authorization form -->
 					</div>
 				</div>
 			</div>
 		</div>
 	</div>
 
-
-    <!-- <form action="{% url 'login' %}" method="POST">
-        {% csrf_token %}
-        <div>
-            <input name="username" id="username" type="text" placeholder="username" />
-            <label for="username">Nome de Usuário</label>
-        </div>
-        <div>
-            <input name="password" id="password" type="password" placeholder="Password" />
-            <label for="password">Senha do Usuário</label>
-        </div>
-        <div>
-            <button type="submit">Enviar</button>
-        </div>
-        {{ erro }}
-    </form> -->
-
-	<!-- JS -->
 	<script src="{% static 'js/jquery-3.3.1.min.js' %}"></script>
 	<script src="{% static 'js/bootstrap.bundle.min.js' %}"></script>
 	<script src="{% static 'js/owl.carousel.min.js' %}"></script>
@@ -104,31 +81,3 @@
 </body>
 
 </html>
-
-
-<!-- <!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Login</title>
-</head>
-<body>
-    <form action="{% url 'login' %}" method="POST">
-        {% csrf_token %}
-        <div>
-            <input name="username" id="username" type="text" placeholder="username" />
-            <label for="username">Nome de Usuário</label>
-        </div>
-        <div>
-            <input name="password" id="password" type="password" placeholder="Password" />
-            <label for="password">Senha do Usuário</label>
-        </div>
-        <div>
-            <button type="submit">Enviar</button>
-        </div>
-        {{ erro }}
-    </form>
-</body>
-</html> -->

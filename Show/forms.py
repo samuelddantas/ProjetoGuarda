@@ -22,16 +22,39 @@ class ObraForm(ModelForm):
         fields = '__all__'
         # Serve para Editar o Tipo de Campo, Classes e Id.
         widgets = {
-            'obr_titulo':           forms.TextInput                 (attrs={'class':'form-control'}),
-            'obr_sinopse':          forms.Textarea                  (attrs={'class':'form-control'}),
+            'obr_titulo':           forms.TextInput                 (attrs={
+                'class':'sign__input',
+                'placeholder': 'Título da Obra'
+            }),
+            'obr_sinopse':          forms.Textarea                  (attrs={
+                'class':'sign__input',
+                'placeholder': 'Sinopse'
+            }),
             'obr_data':             forms.DateInput                 (attrs={
-                'class':'form-control',
+                'class':'sign__input',
+                'placeholder': 'Data',
                 'type': 'date',
             }),
-            'obr_producao':         forms.Textarea                  (attrs={'class':'form-control'}),
-            'obr_capa':             forms.URLInput                  (attrs={'class':'form-control'}),
-            'obr_classificacao':    forms.RadioSelect               (attrs={'class':'form-control'}),
-            'obr_mid_midia':        forms.Select                    (attrs={'class':'form-control'}),
-            'obr_gen_genero':       forms.CheckboxSelectMultiple    (attrs={'class':'form-control'}),
+            'obr_producao':         forms.Textarea                  (attrs={
+                'class':'sign__input',
+                'placeholder': 'Produtores'
+            }),
+            'obr_capa':             forms.URLInput                  (attrs={
+                'class':'sign__input',
+                'placeholder': 'Link da Capa'
+            }),
+            'obr_classificacao':    forms.Select               (attrs={
+                'class':'sign__input',
+                'placeholder': 'Classificação'
+            }),
+            'obr_mid_midia':        forms.Select                    (attrs={
+                'class':'sign__input',
+                'placeholder': 'Tipo de Mídia'
+            }),
+            'obr_gen_genero':       forms.SelectMultiple    (attrs={
+                'class':'sign__input selectMultiple',
+                'placeholder': 'Gênero da Obra',
+                'style': "height: auto;",
+            }),
         }
 
